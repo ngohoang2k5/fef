@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang quản trị</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <script src="/assets/js/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <div class="row">
+        <nav class="col-2 bg-primary">
+            <ul class="nav pt-4 flex-column">
+                <li class="nav-item ms-3 bg-white rounded-3 p-2"><a href="/admin/cong-ty/index.html" class="nav-link">Công ty</a></li>
+                <li class="nav-item ms-3 bg-white rounded-3 p-2 mt-2"><a href="/admin/viec-lam/index.html" class="nav-link">Việc làm</a></li>
+            </ul>
+        </nav>
+        <main class="col-10">
+            <div class="main px-5">
+                <h2>Việc làm</h2>
+                <form action="" class="d-flex gap-2 flex-wrap justify-content-center">
+                    <div class="col-6"><input type="text" id="txtName" class="form-control" placeholder="Nhập tên công ty"></div>
+                    <div class="col-5"><input type="text" id="txtLocation" class="form-control" placeholder="Nhập địa chỉ"></div>
+                    <div class="col-4"><input type="number" id="txtSalary" class="form-control" placeholder="Nhập mức lương"></div>
+                    <div class="col-7"><input type="text" id="txtDescription" class="form-control" placeholder="Nhập ghi chú"></div>
+                    <div class="col-12 text-center">
+                        <button type="button" id="btnUpdate" class="btn btn_primary w-25 text-white">Thêm</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </main>
+        <script>
+            Load()
+            function Load(){
+                let works = localStorage.getItem('works');
+                if(works === undefined || works === null) return
+                works = JSON.parse(works);
+                let id = new URL(window.location.href).searchParams.get("id")
+                let work = works.find(company => company.id == id);
+                if(work === null) return
+                document.querySelector('#btnUpdate').setAttribute('data-id',work.id)
+                document.querySelector("#txtName").value = work.name;
+                document.querySelector("#txtLocation").value = work.location;
+                document.querySelector("#txtSalary").value = work.salary;
+                document.querySelector("#txtDescription").value = work.description;
+                document.querySelector("#btnUpdate").addEventListener('click',()=>{
+                    let works = localStorage.getItem('works');
+                    if(works === undefined || works === null) return
+                    works = JSON.parse(works);
+                    let id = document.querySelector("#btnUpdate").getAttribute('data-id');
+                    let work = works.find(x => x.id == id);
+                    if(work === null) return
+                    work.name = document.querySelector("#txtName").value;
+                    work.location = document.querySelector("#txtLocation").value;
+                    work.description = document.querySelector("#txtDescription").value;
+                    localStorage.setItem('works',JSON.stringify(works));
+                    Swal.fire("Thông báo","Cập nhật thành công","success")
+                })
+
+            }
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang quản trị</title>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <script src="/assets/js/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <div class="row">
+        <nav class="col-2 bg-primary">
+            <ul class="nav pt-4 flex-column">
+                <li class="nav-item ms-3 bg-white rounded-3 p-2"><a href="/admin/cong-ty/index.html" class="nav-link">Công ty</a></li>
+                <li class="nav-item ms-3 bg-white rounded-3 p-2 mt-2"><a href="/admin/viec-lam/index.html" class="nav-link">Việc làm</a></li>
+            </ul>
+        </nav>
+        <main class="col-10">
+            <div class="main px-5">
+                <h2>Việc làm</h2>
+                <form action="" class="d-flex gap-2 flex-wrap justify-content-center">
+                    <div class="col-6"><input type="text" id="txtName" class="form-control" placeholder="Nhập tên công ty"></div>
+                    <div class="col-5"><input type="text" id="txtLocation" class="form-control" placeholder="Nhập địa chỉ"></div>
+                    <div class="col-4"><input type="number" id="txtSalary" class="form-control" placeholder="Nhập mức lương"></div>
+                    <div class="col-7"><input type="text" id="txtNote" class="form-control" placeholder="Nhập ghi chú"></div>
+                    <div class="col-12 text-center">
+                        <button type="button" id="btnAdd" class=" btn btn_primary w-25 text-white">Thêm</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </main>
+        <script>
+            function generateUUID() {
+            // Tạo một chuỗi ngẫu nhiên 32 ký tự
+            let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                let r = (Math.random() * 16) | 0, v = c == 'x' ? r : (r & 0x3) | 0x8;
+                return v.toString(16);
+            });
+            return uuid;
+            }
+
+            const add = document.querySelector('#btnAdd');
+            add.addEventListener('click', () => {
+                const name = document.querySelector('#txtName').value;
+                const location = document.querySelector('#txtLocation').value;
+                const salary = document.querySelector('#txtSalary').value;
+                const description = document.querySelector('#txtNote').value;
+                let works = localStorage.getItem('works')
+                
+                if(works){
+                    works = JSON.parse(works);
+                }else{
+                    localStorage.setItem('works', '[]');
+                    works = [];
+                }
+                const newWork = {
+                    id: generateUUID(),
+                    name: name,
+                    location: location,
+                    salary: salary,
+                    description: description
+                }
+                works.push(newWork);
+                localStorage.setItem('works', JSON.stringify(works));
+                Swal.fire("Thông báo","Thêm thành công","success")
+            })
+        </script>
+    </div>
+</body>
+</html>

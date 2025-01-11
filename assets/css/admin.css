@@ -1,0 +1,12 @@
+nav{
+    height: 100vh;
+}
+main{
+    background-color: rgb(243, 245, 247);
+    padding: 1.5rem;
+}
+.main{
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+}
